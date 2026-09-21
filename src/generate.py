@@ -2,27 +2,23 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 from langchain_ollama import ChatOllama
 
+
 # 1. Load the embedding model
 embeddings = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
 )
 
-# 2. Connect to our existing ChromaDB
+# 2. Connect to the existing ChromaDB
 vectorstore = Chroma(
     collection_name="rag_documents",
     embedding_function=embeddings,
     persist_directory="./chroma_db"
 )
 
-# 3. Create the retriever
-retriever = vectorstore.as_retriever(
-    search_kwargs={"k": 3}
-)
-
-# 4. User question
+# 3. User question
 question = "What is machine learning?"
 
-# 5. Retrieve relevant chunks
+# 4. Retrieve relevant chunks
 results = vectorstore.similarity_search_with_score(
     question,
     k=3
@@ -30,16 +26,12 @@ results = vectorstore.similarity_search_with_score(
 
 documents = [document for document, score in results]
 
+# 5. Display retrieved documents and distances
 print("\nRetrieved Documents:")
 
 for i, (document, score) in enumerate(results):
     print(f"\n--- Document {i + 1} ---")
     print(f"Distance: {score}")
-    print(document.page_content)
-print("\nRetrieved Documents:")
-
-for i, document in enumerate(documents):
-    print(f"\n--- Document {i + 1} ---")
     print(document.page_content)
 
 # 6. Combine retrieved chunks into context
@@ -67,7 +59,7 @@ Question:
 Answer:
 """
 
-# 8. Connect to our local Qwen model
+# 8. Connect to the local Qwen model
 llm = ChatOllama(
     model="qwen2.5:3b",
     temperature=0
