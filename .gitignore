@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# RAG vector database
+chroma_db/
+
+# Local documents / datasets
+data/
+
+# Model cache
+*.bin
+*.safetensors
+*.pt
+*.pth
+
+# OS files
+.DS_Store
+Thumbs.db
